@@ -42,15 +42,29 @@ public class UserController {
         return userService.createUser(user);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/byId/{id}")
     @ResponseStatus(HttpStatus.FOUND)
     public User getUser(@PathVariable Long id) {
-        User user = userService.getUser(id);
+        User user = userService.getUserById(id);
 
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
-        return userService.getUser(id);
+        return user;
     }
+
+    @GetMapping("/byEmail/{email}")
+    @ResponseStatus(HttpStatus.FOUND)
+    public User getUserByEmail(@PathVariable String email) {
+        User user = userService.getUserByEmail(email);
+
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        return user;
+    }
+
+
 }

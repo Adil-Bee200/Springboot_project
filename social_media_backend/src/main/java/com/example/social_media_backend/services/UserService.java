@@ -23,14 +23,16 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User getUser(Long id) {
+    public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
     }
 
     public User createUser(User user) {
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        System.out.println(user.getPassword());
-        System.out.println(encodedPassword);
         user.setPassword(encodedPassword);
         return userRepository.save(user);
     }
