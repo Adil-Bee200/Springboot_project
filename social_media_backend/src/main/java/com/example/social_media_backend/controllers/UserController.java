@@ -1,11 +1,13 @@
 package com.example.social_media_backend.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.social_media_backend.models.User;
+import com.example.social_media_backend.DTO.UserRegisterDTO;
+import com.example.social_media_backend.DTO.UserResponseDTO;
 import com.example.social_media_backend.services.UserService;
+
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -32,20 +34,21 @@ public class UserController {
 
     @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getAllUsers() {
+    public List<UserResponseDTO> getAllUsers() {
         return userService.getUsers(); 
     }
 
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public UserResponseDTO createUser(@Valid @RequestBody UserRegisterDTO user) {
+        UserResponseDTO createdUser = userService.createUser(user);
+        return createdUser;
     }
 
     @GetMapping("/byId/{id}")
     @ResponseStatus(HttpStatus.FOUND)
-    public User getUser(@PathVariable Long id) {
-        User user = userService.getUserById(id);
+    public UserResponseDTO getUser(@PathVariable Long id) {
+        UserResponseDTO user = userService.getUserById(id);
 
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -56,8 +59,8 @@ public class UserController {
 
     @GetMapping("/byEmail/{email}")
     @ResponseStatus(HttpStatus.FOUND)
-    public User getUserByEmail(@PathVariable String email) {
-        User user = userService.getUserByEmail(email);
+    public UserResponseDTO getUserByEmail(@PathVariable String email) {
+        UserResponseDTO user = userService.getUserByEmail(email);
 
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

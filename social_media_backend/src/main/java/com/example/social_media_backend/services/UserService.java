@@ -1,10 +1,14 @@
 package com.example.social_media_backend.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.example.social_media_backend.DTO.UserRegisterDTO;
+import com.example.social_media_backend.DTO.UserResponseDTO;
 import com.example.social_media_backend.models.User;
 import com.example.social_media_backend.repositories.UserRepository;
 
@@ -19,21 +23,49 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
     
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<UserResponseDTO> getUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserResponseDTO> userResponses = new ArrayList<>();
+
+        for (User u : users) {
+            UserResponseDTO user = new UserResponseDTO(u.getId(), u.getEmail());
+            userResponses.add(user);
+        }
+
+        return userResponses;
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+    public UserResponseDTO getUserById(Long id) {
+        User rawUser = userRepository.findById(id).orElse(null);
+
+        if (rawUser == null) {
+            return null;
+        } else {
+            return new UserResponseDTO(rawUser.getId(), rawUser.getEmail());
+        }
     }
 
-    public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email).orElse(null);
+    public UserResponseDTO getUserByEmail(String email) {
+        User rawUser = userRepository.findByEmail(email).orElse(null);
+
+        if (rawUser == null) {
+            return null;
+        } else {
+            return new UserResponseDTO(rawUser.getId(), rawUser.getEmail());
+        }
     }
 
-    public User createUser(User user) {
+    public UserResponseDTO createUser(UserRegisterDTO user) {
+        // convert to entity object
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        return userRepository.save(user);
+        User newUser = new User();
+        newUser.setEmail(user.getEmail());
+        newUser.setPassword(encodedPassword);
+
+        // save entity object
+        User createdUser = userRepository.save(newUser);
+
+        // convert to DTO and return
+        return new UserResponseDTO(createdUser.getId(), createdUser.getEmail());
     }
 }

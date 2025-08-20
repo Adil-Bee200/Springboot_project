@@ -26,6 +26,8 @@ public class User {
     @Column(name = "created_at", updatable = false, nullable = false)
     private Instant createdAt;
 
+    public User() {}
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = Instant.now();
