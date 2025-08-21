@@ -8,15 +8,19 @@ public class PostResponseDTO {
     private String content;
     private Boolean published;
     private Instant createdAt;
+    private Long ownerId;
+    private String ownerEmail;
 
     public PostResponseDTO() {}
 
-    public PostResponseDTO(Long id, String title, String content, Boolean published, Instant createdAt) {
+    public PostResponseDTO(Long id, String title, String content, Boolean published, Instant createdAt, Long ownerId, String ownerEmail) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.published = published;
         this.createdAt = createdAt;
+        this.ownerId = ownerId;
+        this.ownerEmail = ownerEmail;
     }
 
     public Long getId() {
@@ -57,5 +61,21 @@ public class PostResponseDTO {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getOwnerEmail() {
+        return ownerEmail;
+    }
+
+    public void setOwnerEmail(String ownerEmail) {
+        this.ownerEmail = ownerEmail;
     }
 } 

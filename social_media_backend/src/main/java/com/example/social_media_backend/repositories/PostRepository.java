@@ -6,8 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.social_media_backend.models.Post;
+import com.example.social_media_backend.models.User;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
+    
+    List<Post> findByOwner(User owner);
+    
+    List<Post> findByOwnerId(Long ownerId);
     
     List<Post> findByPublishedTrue();
     

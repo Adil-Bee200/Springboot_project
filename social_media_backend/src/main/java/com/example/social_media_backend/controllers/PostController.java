@@ -8,6 +8,9 @@ import com.example.social_media_backend.DTO.PostResponseDTO;
 import com.example.social_media_backend.DTO.PostUpdateDTO;
 import com.example.social_media_backend.services.PostService;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -71,7 +74,10 @@ public class PostController {
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public PostResponseDTO createPost(@Valid @RequestBody PostCreateDTO postCreateDTO) {
-        PostResponseDTO createdPost = postService.createPost(postCreateDTO);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        
+        PostResponseDTO createdPost = postService.createPost(postCreateDTO, userEmail);
         return createdPost;
     }
 

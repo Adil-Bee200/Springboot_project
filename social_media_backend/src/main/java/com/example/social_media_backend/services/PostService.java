@@ -10,14 +10,18 @@ import com.example.social_media_backend.DTO.PostCreateDTO;
 import com.example.social_media_backend.DTO.PostResponseDTO;
 import com.example.social_media_backend.DTO.PostUpdateDTO;
 import com.example.social_media_backend.models.Post;
+import com.example.social_media_backend.models.User;
 import com.example.social_media_backend.repositories.PostRepository;
+import com.example.social_media_backend.repositories.UserRepository;
 
 @Service
 public class PostService {
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
     }
     
     public List<PostResponseDTO> getAllPosts() {
@@ -78,11 +82,17 @@ public class PostService {
         return postResponses;
     }
 
-    public PostResponseDTO createPost(PostCreateDTO postCreateDTO) {
+    public PostResponseDTO createPost(PostCreateDTO postCreateDTO, String userEmail) {
+        User user = userRepository.findByEmail(userEmail).orElse(null);
+        if (user == null) {
+            return null; 
+        }
+
         Post newPost = new Post();
         newPost.setTitle(postCreateDTO.getTitle());
         newPost.setContent(postCreateDTO.getContent());
         newPost.setPublished(postCreateDTO.getPublished());
+        newPost.setOwner(user);
 
         Post createdPost = postRepository.save(newPost);
 
@@ -143,7 +153,9 @@ public class PostService {
             post.getTitle(),
             post.getContent(),
             post.getPublished(),
-            post.getCreatedAt()
+            post.getCreatedAt(),
+            post.getOwner().getId(),
+            post.getOwner().getEmail()
         );
     }
 } 
