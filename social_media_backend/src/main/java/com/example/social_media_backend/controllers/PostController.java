@@ -50,7 +50,6 @@ public class PostController {
         return postService.getPublishedPostsOrderByCreatedAt();
     }
 
-    // Get a specific post by ID
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public PostResponseDTO getPostById(@PathVariable Long id) {

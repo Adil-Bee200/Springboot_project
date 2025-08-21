@@ -17,7 +17,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    // dependency injection
     public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -56,16 +55,13 @@ public class UserService {
     }
 
     public UserResponseDTO createUser(UserRegisterDTO user) {
-        // convert to entity object
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         User newUser = new User();
         newUser.setEmail(user.getEmail());
         newUser.setPassword(encodedPassword);
 
-        // save entity object
         User createdUser = userRepository.save(newUser);
 
-        // convert to DTO and return
         return new UserResponseDTO(createdUser.getId(), createdUser.getEmail());
     }
 }
