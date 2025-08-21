@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,9 +41,15 @@ public class UserController {
 
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponseDTO createUser(@Valid @RequestBody UserRegisterDTO user) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserRegisterDTO user) {
         UserResponseDTO createdUser = userService.createUser(user);
-        return createdUser;
+        
+        if (createdUser == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body("User with this email already exists");
+        }
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     @GetMapping("/byId/{id}")

@@ -8,4 +8,7 @@ import com.example.social_media_backend.models.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
+    
+    // Check if email already exists
+    boolean existsByEmail(String email);
 } 

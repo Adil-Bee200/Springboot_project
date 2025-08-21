@@ -55,6 +55,11 @@ public class UserService {
     }
 
     public UserResponseDTO createUser(UserRegisterDTO user) {
+        // Check if email already exists
+        if (userRepository.existsByEmail(user.getEmail())) {
+            return null; // Return null to indicate email already exists
+        }
+        
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         User newUser = new User();
         newUser.setEmail(user.getEmail());
