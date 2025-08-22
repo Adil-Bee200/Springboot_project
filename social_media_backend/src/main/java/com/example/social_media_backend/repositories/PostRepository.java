@@ -12,8 +12,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     
     List<Post> findByOwner(User owner);
     
-    List<Post> findByOwnerId(Long ownerId);
-    
     List<Post> findByPublishedTrue();
     
     List<Post> findByTitleContainingIgnoreCase(String title);
