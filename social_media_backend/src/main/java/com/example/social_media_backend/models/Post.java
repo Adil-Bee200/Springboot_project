@@ -32,11 +32,9 @@ public class Post {
     @Column(name = "created_at", updatable = false, nullable = false)
     private Instant createdAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)                // "LAZY" ensures user object is not automatically loaded when fetching posts
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
-
-
 
     public Post() {}
 
@@ -48,11 +46,9 @@ public class Post {
         }
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -60,7 +56,6 @@ public class Post {
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -68,7 +63,6 @@ public class Post {
     public String getContent() {
         return content;
     }
-
     public void setContent(String content) {
         this.content = content;
     }
@@ -76,7 +70,6 @@ public class Post {
     public Boolean getPublished() {
         return published;
     }
-
     public void setPublished(Boolean published) {
         this.published = published;
     }
@@ -84,7 +77,6 @@ public class Post {
     public Instant getCreatedAt() {
         return createdAt;
     }
-
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
@@ -92,8 +84,12 @@ public class Post {
     public User getOwner() {
         return owner;
     }
-
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    // method to get owner ID without loading the user 
+    public Long getOwnerId() {
+        return owner != null ? owner.getId() : null;
     }
 } 
