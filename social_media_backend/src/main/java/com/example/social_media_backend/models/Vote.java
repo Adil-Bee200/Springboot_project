@@ -24,11 +24,20 @@ public class Vote {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
+    private int direction; // 1 for upvote, -1 for downvote
+
     public Vote() {}
 
     public Vote(User owner, Post post) {
         this.owner = owner;
         this.post = post;
+        this.id = new VoteId(owner.getId(), post.getId());
+    }
+
+    public Vote(User owner, Post post, int direction) {
+        this.owner = owner;
+        this.post = post;
+        this.direction = direction;
         this.id = new VoteId(owner.getId(), post.getId());
     }
 
@@ -54,6 +63,14 @@ public class Vote {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
     }
 
     public Long getPostId() {

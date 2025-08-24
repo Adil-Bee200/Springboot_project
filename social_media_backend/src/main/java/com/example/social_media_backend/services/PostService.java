@@ -148,10 +148,8 @@ public class PostService {
     }
 
     private PostResponseDTO convertToResponseDTO(Post post) {
-        // Use the convenience method to get owner ID without loading the user
         Long ownerId = post.getOwnerId();
         
-        // Only fetch user details if we need the email for the response
         String ownerEmail = "Unknown User";
         if (ownerId != null) {
             Optional<User> user = userRepository.findById(ownerId);
