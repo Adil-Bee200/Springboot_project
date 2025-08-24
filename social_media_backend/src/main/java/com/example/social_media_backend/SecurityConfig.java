@@ -31,6 +31,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/users/**").permitAll() // Allow all user endpoints
+                .requestMatchers("/votes/**").authenticated() // Allow votes endpoints for authenticated users
+                .requestMatchers("/posts/**").authenticated() // Allow posts endpoints for authenticated users
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
