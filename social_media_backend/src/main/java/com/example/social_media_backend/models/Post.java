@@ -88,7 +88,6 @@ public class Post {
         this.owner = owner;
     }
 
-    // method to get owner ID without loading the user 
     public Long getOwnerId() {
         return owner != null ? owner.getId() : null;
     }
