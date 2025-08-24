@@ -9,25 +9,25 @@ import java.util.Objects;
 @Embeddable
 public class VoteId implements Serializable {
     
-    @Column(name = "owner_id")
-    private Long ownerId;
+    @Column(name = "user_id")
+    private Long userId;
     
     @Column(name = "post_id")
     private Long postId;
 
     public VoteId() {}
 
-    public VoteId(Long ownerId, Long postId) {
-        this.ownerId = ownerId;
+    public VoteId(Long userId, Long postId) {
+        this.userId = userId;
         this.postId = postId;
     }
 
-    public Long getOwnerId() {
-        return ownerId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Long getPostId() {
@@ -43,18 +43,18 @@ public class VoteId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         VoteId voteId = (VoteId) o;
-        return Objects.equals(ownerId, voteId.ownerId) && Objects.equals(postId, voteId.postId);
+        return Objects.equals(userId, voteId.userId) && Objects.equals(postId, voteId.postId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ownerId, postId);
+        return Objects.hash(userId, postId);
     }
 
     @Override
     public String toString() {
         return "VoteId{" +
-                "ownerId=" + ownerId +
+                "userId=" + userId +
                 ", postId=" + postId +
                 '}';
     }

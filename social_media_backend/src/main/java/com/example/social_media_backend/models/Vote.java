@@ -1,11 +1,17 @@
 package com.example.social_media_backend.models;
 
+import java.time.Instant;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,30 +21,35 @@ public class Vote {
     private VoteId id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("ownerId")
-    @JoinColumn(name = "owner_id", nullable = false)
+    @MapsId("userId")
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User owner;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("postId")
     @JoinColumn(name = "post_id", nullable = false)
+    @JsonIgnore
     private Post post;
 
+    @Column(name = "direction", nullable = false)
     private int direction; // 1 for upvote, -1 for downvote
 
-    public Vote() {}
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
 
-    public Vote(User owner, Post post) {
-        this.owner = owner;
-        this.post = post;
-        this.id = new VoteId(owner.getId(), post.getId());
-    }
+    public Vote() {}
 
     public Vote(User owner, Post post, int direction) {
         this.owner = owner;
         this.post = post;
         this.direction = direction;
         this.id = new VoteId(owner.getId(), post.getId());
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = Instant.now();
     }
 
     public VoteId getId() {
@@ -73,11 +84,23 @@ public class Vote {
         this.direction = direction;
     }
 
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public Long getPostId() {
         return post != null ? post.getId() : null;
     }
 
     public Long getOwnerId() {
         return owner != null ? owner.getId() : null;
+    }
+
+    public void setTime() {
+        this.createdAt = Instant.now();  
     }
 }
