@@ -45,8 +45,7 @@ public class UserController {
         UserResponseDTO createdUser = userService.createUser(user);
         
         if (createdUser == null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body("User with this email already exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("User with this email already exists");
         }
         
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
