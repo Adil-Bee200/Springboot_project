@@ -37,13 +37,11 @@
         </dependency>
     
         <!-- JPA + Hibernate for database -->
-
-        <!--
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        -->
+        
     
         <!-- Validation (JSR-380 / Jakarta Validation API) -->
         <dependency>
@@ -53,12 +51,25 @@
     
         <!-- Spring Security -->
 
-        <!--
+        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        -->
+
+        <!--Flyway stuff-->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>10.8.1</version>
+        </dependency>
+        
+        <!-- Flyway PostgreSQL support -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+            <version>10.8.1</version>
+        </dependency>
     
         <!-- Postgres JDBC driver -->
         <dependency>
